@@ -7,11 +7,32 @@ Source: https://sketchfab.com/3d-models/mclaren-f1-1993-by-alexka-294df724d96241
 Title: McLaren F1 1993 By Alex.Ka.🤍🖤
 */
 
-import React, { useRef } from 'react'
+import React from 'react'
 import { useGLTF } from '@react-three/drei'
-
+import gsap from "gsap";
+import { useLayoutEffect } from "react";
+import { useThree } from '@react-three/fiber';
 export function Carglb(props) {
   const { nodes, materials } = useGLTF('/model/carglb.glb')
+  const {camera } = useThree();
+  const tl = gsap.timeline();
+  useLayoutEffect(()=>{
+    tl.to(camera.position, {
+      duration: 2,
+      x: -0.036279039918251266,
+      y: 1.4028483340350946,
+      z: 4.668783619975426,
+      ease: "sine.inOut",
+      delay:1
+    });
+    tl.to(camera.rotation, {
+      duration: 2,
+      x: -0.29189164818059604,
+      y: -0.0074417327892797895,
+      z: -0.0022360232431414633,
+      ease: "sine.inOut",
+    },'-=2');
+  })
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={1.075}>
