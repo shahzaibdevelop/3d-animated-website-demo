@@ -7,32 +7,98 @@ Source: https://sketchfab.com/3d-models/mclaren-f1-1993-by-alexka-294df724d96241
 Title: McLaren F1 1993 By Alex.Ka.🤍🖤
 */
 
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
-import gsap from "gsap";
-import { useLayoutEffect } from "react";
+import React, { useRef } from 'react';
+import { useGLTF } from '@react-three/drei';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect } from 'react';
 import { useThree } from '@react-three/fiber';
+
 export function Carglb(props) {
-  const { nodes, materials } = useGLTF('/model/carglb.glb')
-  const {camera } = useThree();
-  const tl = gsap.timeline();
-  useLayoutEffect(()=>{
-    tl.to(camera.position, {
+  const { nodes, materials } = useGLTF('/model/carglb.glb');
+  const { camera, scene } = useThree();
+  const modelRef = useRef();
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Define a separate timeline for details animation
+
+  useLayoutEffect(() => {
+    // Initial animation timeline
+    const initialTimeline = gsap.timeline();
+
+    initialTimeline.to(camera.position, {
       duration: 2,
       x: -0.036279039918251266,
       y: 1.4028483340350946,
       z: 4.668783619975426,
-      ease: "sine.inOut",
-      delay:1
+      ease: 'sine.inOut',
+      delay: 1,
     });
-    tl.to(camera.rotation, {
-      duration: 2,
-      x: -0.29189164818059604,
-      y: -0.0074417327892797895,
-      z: -0.0022360232431414633,
-      ease: "sine.inOut",
-    },'-=2');
-  })
+
+    initialTimeline.to(
+      camera.rotation,
+      {
+        duration: 2,
+        x: -0.29189164818059604,
+        y: -0.0074417327892797895,
+        z: -0.0022360232431414633,
+        ease: 'sine.inOut',
+      },
+      '-=2'
+    );
+
+    initialTimeline.from('#hero-heading', {
+      opacity: 0,
+      y: 20,
+      duration: 1,
+      ease: 'elastic.inOut',
+    });
+
+    // Ensure to clean up
+    return () => {
+      initialTimeline.kill(); // Kill the initial timeline on unmount or update
+    };
+  }, []);
+
+  // ScrollTrigger animation setup
+  const detailsTimeline = gsap.timeline({
+    scrollTrigger:{
+        trigger: '#details', // Trigger when scrolling reaches the '#details' element
+        start: '-50% center', // Start animation when the center of viewport reaches 50% above the '#details'
+        end: 'center center', // End animation when the bottom of the viewport reaches the center of '#details'
+        markers: true, // For debugging, to visualize the trigger area
+        scrub: true, // Smooth scrubbing effect
+    }
+  });
+  useLayoutEffect(() => {
+
+    // Animation details
+    detailsTimeline.to(camera.position, {
+      x: 3.6065685258525235,
+      y: 1.5288356279331774,
+      z: 2.902097139430903,
+      ease: 'sine.inOut',
+      duration: 1.4,
+    });
+    detailsTimeline.to(
+      camera.rotation,
+      {
+        x: -0.4848599569160009,
+        y: 0.8327581578975839,
+        z: 0.37161659861045926,
+        ease: 'sine.inOut',
+        duration: 1.4,
+      },
+      '-=1.2' // Overlap slightly to create a smooth transition
+    );
+
+    // Ensure to clean up
+    return () => {
+      detailsTimeline.kill(); // Kill the details timeline on unmount or update
+    };
+  }, [camera, scene]);
+  
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={1.075}>

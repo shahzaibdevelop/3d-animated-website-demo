@@ -1,10 +1,50 @@
-html,body,#root{
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-*{
-    box-sizing: border-box;
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+body::-webkit-scrollbar-track {
+  display: none;
+}
+* {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: "helvetica";
+  src: url("/font/Helvetica.ttf") format("truetype");
+}
+@font-face {
+  font-family: "helvetica-light";
+  src: url("/font/helvetica-light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "helvetica-bold";
+  src: url("/font/Helvetica-Bold.ttf") format("truetype");
+}
+.f-h {
+  font-family: "helvetica", Fallback, sans-serif;
+}
+.f-hb {
+  font-family: "helvetica-light", Fallback, sans-serif;
+}
+.f-hl {
+  font-family: "helvetica-bold", Fallback, sans-serif;
+}
+#hero-container{
+  width: 100vw;
+  height: 100vh;
+}
+#hero-heading{
+  font-size: 10vw;
 }
