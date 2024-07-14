@@ -67,7 +67,6 @@ export function Carglb(props) {
         trigger: '#details', // Trigger when scrolling reaches the '#details' element
         start: '-50% center', // Start animation when the center of viewport reaches 50% above the '#details'
         end: 'center center', // End animation when the bottom of the viewport reaches the center of '#details'
-        markers: true, // For debugging, to visualize the trigger area
         scrub: true, // Smooth scrubbing effect
     }
   });
@@ -92,7 +91,11 @@ export function Carglb(props) {
       },
       '-=1.2' // Overlap slightly to create a smooth transition
     );
-
+    detailsTimeline.from("#details-heading", {
+      opacity:0,
+      y:-10,
+      ease: 'sine.inOut',
+    });
     // Ensure to clean up
     return () => {
       detailsTimeline.kill(); // Kill the details timeline on unmount or update
