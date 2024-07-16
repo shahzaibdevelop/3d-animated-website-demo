@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     const updateScalingFactor = () => {
-      const factor = window.innerWidth < 768 ? window.innerWidth / 500 : window.innerWidth / 1500;
+      const factor = window.innerWidth < 768 ? window.innerWidth / 200 : window.innerWidth / 1500;
       setScalingFactor(factor);
     };
 
